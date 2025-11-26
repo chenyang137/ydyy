@@ -23,7 +23,7 @@
 -----
 **在线演示** [http://lab.mkblog.cn/music/](http://lab.mkblog.cn/music/)(原版)
 
-**在线演示** [https://music.itmxue.cn](https://music.itmxue.cn)(本人升级优化版)
+**在线演示** [https://music.itmxue.cn](https://music.itmxue.cn)(mxue12138升级优化版)
 
 **详细介绍** [http://mkblog.cn/1060/](http://mkblog.cn/1060/)
 

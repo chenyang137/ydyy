@@ -47,10 +47,10 @@
 git clone https://github.com/chenyang137/ydyy.git
 ```
 
-赋予权限(否则歌曲无法缓存)
+赋予读写权限(否则歌曲无法缓存,导致无法下载以及请求gdstudio的api次数频繁导致封禁)
 
 ```
-chmod 777 ydyy
+chmod -R 777 ydyy
 ```
 
 切换到项目目录

@@ -29,7 +29,7 @@
 
 **GitHub** [https://github.com/mengkunsoft/MKOnlineMusicPlayer](https://github.com/mengkunsoft/MKOnlineMusicPlayer)(原版)
 
-**GitHub** [https://github.com/mxue12138/MKOnlineMusicPlayer](https://github.com/mxue12138/MKOnlineMusicPlayer)(本人升级优化版)
+**GitHub** [https://github.com/mxue12138/MKOnlineMusicPlayer](https://github.com/mxue12138/MKOnlineMusicPlayer)(mxue12138升级优化版)
 
 ### 注意事项
 -----

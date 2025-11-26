@@ -46,6 +46,13 @@
 ```
 git clone https://github.com/chenyang137/ydyy.git
 ```
+
+赋予权限(否则歌曲无法缓存)
+
+```
+chmod 777 ydyy
+```
+
 切换到项目目录
 
 ```

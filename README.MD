@@ -46,6 +46,11 @@
 ```
 git clone https://github.com/chenyang137/ydyy.git
 ```
+切换到项目目录
+
+```
+cd ydyy
+```
 
 启动容器
 

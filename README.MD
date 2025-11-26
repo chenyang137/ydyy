@@ -38,13 +38,21 @@
 
 2. 默认端口是 4000，需要修改的话请修改 docker-compose.yml 文件，修改后需要删除容器重新创建，``docker-compose down && docker-compose up -d``
 3. docker-compose.yml 部分代码参考自 [#issuecomment-1976040416](https://github.com/mxue12138/MKOnlineMusicPlayer/issues/2#issuecomment-1976040416)
--完整方法
--拉取源码
--```git clone https://github.com/chenyang137/ydyy.git```
--启动容器
--```docker-compose up -d```
--访问
--```http://your_ip:4000```
+
+完整方法
+
+拉取源码
+
+```git clone https://github.com/chenyang137/ydyy.git```
+
+启动容器
+
+```docker-compose up -d```
+
+访问
+
+```http://your_ip:4000```
+
 #### 运行环境
 
 php 5.4+, curl_exec, file_get_contents, json_decode, openssl_encrypt

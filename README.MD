@@ -1,6 +1,6 @@
-MxuePlay（原MKOnlineMusicPlayer）
+源点音乐（原MKOnlineMusicPlayer）
 ========
-MxuePlay是MKOnlineMusicPlayer的优化版，MKOnlineMusicPlayer 是一款开源的基于 `Meting` 的在线音乐播放器。具有音乐搜索、播放、下载、歌词同步显示、个人网易云音乐播放列表同步等功能。
+源点音乐是@mxue12138二次开发MKOnlineMusicPlayer的优化版，使用gd音乐api解锁音乐，MKOnlineMusicPlayer 是一款开源的基于 `Meting` 的在线音乐播放器。具有音乐搜索、播放、下载、歌词同步显示、个人网易云音乐播放列表同步等功能。
 
 前端界面参照 QQ 音乐网页版进行布局，同时采用了流行的响应式设计，无论是在PC端还是在手机端，均能给您带来原生 app 般的使用体验。
 
@@ -38,6 +38,26 @@ MxuePlay是MKOnlineMusicPlayer的优化版，MKOnlineMusicPlayer 是一款开源
 
 2. 默认端口是 4000，需要修改的话请修改 docker-compose.yml 文件，修改后需要删除容器重新创建，``docker-compose down && docker-compose up -d``
 3. docker-compose.yml 部分代码参考自 [#issuecomment-1976040416](https://github.com/mxue12138/MKOnlineMusicPlayer/issues/2#issuecomment-1976040416)
+
+完整方法
+
+拉取源码
+
+```
+git clone https://github.com/chenyang137/ydyy.git
+```
+
+启动容器
+
+```
+docker-compose up -d
+```
+
+访问
+
+```
+http://your_ip:4000
+```
 
 #### 运行环境
 
@@ -264,8 +284,10 @@ php 5.4+, curl_exec, file_get_contents, json_decode, openssl_encrypt
 
 ### 致谢
 -----
-#### 特别感谢 `@metowolf`、`网易云音乐`、`QQ音乐`、`虾米`、`酷狗`、`百度音乐`
-
+#### 特别感谢 `@metowolf`、`@mxue12138`、`gdstudio`、`网易云音乐`、`QQ音乐`、`虾米`、`酷狗`、`百度音乐`
+- **MxuePlay**：[https://github.com/mxue12138/MKOnlineMusicPlayer](https://github.com/mxue12138/MKOnlineMusicPlayer)
+- **gdstudio**：[https://music.gdstudio.xyz](https://music.gdstudio.xyz)
+- **MKOnlineMusicPlayer**：[https://github.com/mengkunsoft/MKOnlineMusicPlayer](https://github.com/mengkunsoft/MKOnlineMusicPlayer)
 #### 采用的开源模块
 - **Jquery**：js主流开发框架 [http://jquery.com/](http://jquery.com/)
 - **Meting**：一个高效的多平台音乐 API 框架 [https://github.com/metowolf/Meting](https://github.com/metowolf/Meting)

@@ -43,15 +43,21 @@
 
 拉取源码
 
-```git clone https://github.com/chenyang137/ydyy.git```
+```
+git clone https://github.com/chenyang137/ydyy.git
+```
 
 启动容器
 
-```docker-compose up -d```
+```
+docker-compose up -d
+```
 
 访问
 
-```http://your_ip:4000```
+```
+http://your_ip:4000
+```
 
 #### 运行环境
 

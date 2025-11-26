@@ -26,6 +26,8 @@ define('HTTPS', true);    // 如果您的网站启用了https，请将此项置�
 define('DEBUG', false);      // 是否开启调试模式，正常使用时请将此项置为“false”
 define('JSONP', false);      // 是否开启JSONP模式，使用远程api时请开启
 define('CACHE_PATH', 'cache/');     // 文件缓存目录,请确保该目录存在且有读写权限。如无需缓存，可将此行注释掉
+// 可选：将搜索/播放/歌词等请求代理到 gdstudio 的音乐 API
+define('REMOTE_GDSTUDIO', 'https://music-api.gdstudio.xyz/api.php');
 
 /*
  如果遇到程序不能正常运行，请开启调试模式，然后访问 http://你的网站/音乐播放器地址/api.php ，进入服务器运行环境检测。
@@ -49,6 +51,50 @@ $DOWNLOAD = new Download($source);
 
 $API->format(true); // 启用格式化功能
 
+/**
+ * 将部分请求代理到 gdstudio 的 music-api 服务。
+ * 该远端 API 使用与前端相同的参数名（types/source/name/id 等），
+ * 因此直接转发即可。代理的 types 包括：search, url, pic, lyric
+ */
+function proxy_to_gdstudio_if_needed($types) {
+    // 不代理歌词请求，歌词仍使用本地实现以保留缓存和原始格式
+    $remote_types = array('search','url','pic');
+    if(!defined('REMOTE_GDSTUDIO') || REMOTE_GDSTUDIO == '') return false;
+    if(!in_array($types, $remote_types)) return false;
+
+    // 合并参数（POST 优先覆盖 GET）
+    $params = array();
+    foreach($_GET as $k=>$v) $params[$k] = $v;
+    foreach($_POST as $k=>$v) $params[$k] = $v;
+
+    // 构建远端查询字符串（远端期望同名参数，例如 types/name/source/id）
+    $query = http_build_query($params);
+    $url = rtrim(REMOTE_GDSTUDIO, '?') . '?' . $query;
+
+    // 请求远端 API
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err = curl_error($ch);
+    curl_close($ch);
+
+    if($response === false || $http_code >= 400) {
+        $errMsg = array('code' => -1, 'msg' => 'Remote gdstudio request failed', 'error' => $err, 'http_code' => $http_code);
+        echojson(json_encode($errMsg));
+        return true;
+    }
+
+    // 远端返回的 JSON 结构与前端期望的结构基本一致（search 返回数组，url/pic/lyric 返回对象），
+    // 直接返回远程响应给前端即可。
+    echojson($response);
+    return true;
+}
+
 if($source == 'kugou' || $source == 'baidu' || $source == 'tencent') {
     define('NO_HTTPS', true);        // 酷狗、百度音乐和QQ源暂不支持 https
 } elseif(($source == 'netease') && $netease_cookie) {
@@ -59,6 +105,10 @@ if($source == 'kugou' || $source == 'baidu' || $source == 'tencent') {
 if(defined('CACHE_PATH') && !is_dir(CACHE_PATH)) createFolders(CACHE_PATH);
 
 $types = getParam('types');
+// 先判断是否需要将请求代理到 gdstudio 的远端 API
+if($types && proxy_to_gdstudio_if_needed($types)) {
+    return; // 已输出远端响应，终止本地处理
+}
 switch($types)   // 根据请求的 Api，执行相应操作
 {
     case 'url':   // 获取歌曲链接
@@ -235,18 +285,25 @@ switch($types)   // 根据请求的 Api，执行相应操作
             }
         }
 
-        $data = array();
+        $data = array(
+            'total_cache_files' => count($jsonList),
+            'deleted_files' => array(),
+            'failed_files' => array(),
+            'retained_files' => count($jsonList)
+        );
+        
         foreach($jsonList as $val) {
             if (strtotime('+'.$minute.' minute', filemtime($val)) <= time()) {
                 $filetime = date('Y-m-d H:i:s', filemtime($val));
                 if (unlink($val)) {
-                    array_push($data, array(
+                    array_push($data['deleted_files'], array(
                         'msg' => '删除成功。',
                         'time' => $filetime,
                         'file' => $val,
-                    )); 
+                    ));
+                    $data['retained_files']--;
                 } else {
-                    array_push($data, array(
+                    array_push($data['failed_files'], array(
                         'msg' => '删除失败，请检查文件权限或其他问题。',
                         'time' => $filetime,
                         'file' => $val,
@@ -254,6 +311,9 @@ switch($types)   // 根据请求的 Api，执行相应操作
                 }
             }
         }
+        
+        $data['status'] = 'success';
+        $data['message'] = '缓存清理完成。共 ' . count($data['deleted_files']) . ' 个文件被删除，' . $data['retained_files'] . ' 个文件被保留。';
 
         echojson(json_encode($data));
         break;

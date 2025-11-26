@@ -271,7 +271,9 @@ php 5.4+, curl_exec, file_get_contents, json_decode, openssl_encrypt
 ### 致谢
 -----
 #### 特别感谢 `@metowolf`、`@mxue12138`、`gdstudio`、`网易云音乐`、`QQ音乐`、`虾米`、`酷狗`、`百度音乐`
-
+- **MxuePlay**：[https://github.com/mxue12138/MKOnlineMusicPlayer](https://github.com/mxue12138/MKOnlineMusicPlayer)
+- **gdstudio**：[https://music.gdstudio.xyz](https://music.gdstudio.xyz)
+- **MKOnlineMusicPlayer**：[https://github.com/mengkunsoft/MKOnlineMusicPlayer](https://github.com/mengkunsoft/MKOnlineMusicPlayer)
 #### 采用的开源模块
 - **Jquery**：js主流开发框架 [http://jquery.com/](http://jquery.com/)
 - **Meting**：一个高效的多平台音乐 API 框架 [https://github.com/metowolf/Meting](https://github.com/metowolf/Meting)
